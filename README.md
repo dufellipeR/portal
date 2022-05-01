@@ -1,7 +1,3 @@
-## Electron + TypeScript + React
-
-Boilerplate for a project using Electron, React and Typescript.
-
 ## Installation
 
 Use a package manager of your choice (npm, yarn, etc.) in order to install all dependencies
@@ -18,18 +14,10 @@ Just run `start` script.
 yarn start
 ```
 
-## Packaging
+## Create EXE
 
 To generate the project package based on the OS you're running on, just run:
 
 ```bash
 yarn package
 ```
-
-## Contributing
-
-Pull requests are always welcome 😃.
-
-## License
-
-[MIT](https://choosealicense.com/licenses/mit/)
