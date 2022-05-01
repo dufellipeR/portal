@@ -6,6 +6,7 @@ module.exports = {
       runtime: 'automatic'
     }]
   ],
+
   plugins: [
     ['@babel/plugin-transform-runtime', {
       regenerator: true
