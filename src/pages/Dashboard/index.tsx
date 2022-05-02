@@ -1,5 +1,5 @@
 import React from 'react'
-import { SearchOutlined, ShoppingOutlined, UsergroupAddOutlined } from '@ant-design/icons'
+import { LeftOutlined, SearchOutlined, ShoppingOutlined, UsergroupAddOutlined } from '@ant-design/icons'
 import { Button } from 'antd'
 
 import { useNavigate } from 'react-router-dom'
@@ -11,9 +11,9 @@ export const Dashboard: React.FC<any> = () => {
 
     return (
         <>
-            <Button type="primary" onClick={() => { navigate('/') }} danger>
-                Logout
-            </Button>
+            <button type='button' onClick={() => { navigate('/') }} style={{ marginLeft: 30 + 'px', marginTop: 30, border: 0, backgroundColor: 'transparent', cursor: 'pointer' }}>
+                <LeftOutlined style={{ fontSize: '32px', color: '#126877' }} />
+            </button>
             <Container>
 
 

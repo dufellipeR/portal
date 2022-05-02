@@ -12,6 +12,6 @@ export const Container = styled.div`
 export const Routines = styled.div`
     display: grid;
     margin-top: 130px;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 120px;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 0.5fr));
+    gap: 100px;
 `;
