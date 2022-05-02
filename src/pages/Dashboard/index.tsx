@@ -1,27 +1,33 @@
-import { Button } from 'antd'
 import React from 'react'
+import { SearchOutlined, ShoppingOutlined, UsergroupAddOutlined } from '@ant-design/icons'
+import { Button } from 'antd'
+
 import { useNavigate } from 'react-router-dom'
+import { Routine } from '../../components/Routine'
+import { Container, Routines } from './styles'
 
 export const Dashboard: React.FC<any> = () => {
     const navigate = useNavigate()
+
     return (
         <>
-            <h1>DASHBOARD</h1>
             <Button type="primary" onClick={() => { navigate('/') }} danger>
                 Logout
             </Button>
+            <Container>
 
-            <Button type="primary" onClick={() => { navigate('/sellOrders') }} block>
-                Pedidos de Venda
-            </Button>
 
-            <Button type="primary" onClick={() => { navigate('/customers') }} block>
-                Cadastro de Clientes
-            </Button>
+                <h1 style={{ color: '#126877', fontWeight: 'bold' }}>Escolher Rotina</h1>
 
-            <Button type="primary" onClick={() => { navigate('/queries') }} block>
-                Consultas
-            </Button>
+                <Routines>
+                    <Routine title='Pedidos de Venda' icon={<ShoppingOutlined style={{ fontSize: '32px', color: '#126877' }} />} to='/sellOrders' />
+
+                    <Routine title='Cadastro de Clientes' icon={<UsergroupAddOutlined style={{ fontSize: '32px', color: '#126877' }} />} to='/customers' />
+
+                    <Routine title='Consultas' icon={<SearchOutlined style={{ fontSize: '32px', color: '#126877' }} />} to='/queries' />
+
+                </Routines>
+            </Container>
         </>
     )
 }

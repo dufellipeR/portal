@@ -35,9 +35,9 @@ const Login: React.FC = () => {
   };
 
   return (
-    <Container style={{ marginTop: 25}}>
+    <Container >
       <Row style={{  marginBottom: 25}}>
-        <Col span={9} offset={8}>
+        <Col span={9} sm={3} offset={8}>
           <img
             width={600}
             height={'auto'}

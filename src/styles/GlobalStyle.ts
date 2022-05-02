@@ -11,5 +11,7 @@ export const GlobalStyle = createGlobalStyle`
     font-family: Arial, Helvetica, sans-serif;
     font-size: 16px;
     color: #E1E1E6;
+    background-color: #F1F1F1;
+    max-height: 100%;
   }
 `
