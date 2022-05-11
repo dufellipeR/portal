@@ -1,32 +1,19 @@
-import { Button, Input, Image, Row, Col } from 'antd';
+import { FC, MouseEvent } from 'react';
+
+import { useNavigate } from 'react-router-dom';
+import { Input } from 'antd';
 import { EyeInvisibleOutlined, EyeTwoTone, UserOutlined } from '@ant-design/icons';
 
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { toast } from 'react-toastify';
+import { Button } from '../../components/Button'
 
 import Matrix from '../../../assets/logo-matrix.png'
 
+import { Container, InputsArea } from './styles';
 
-
-import { Container, Content, Hero, LoginArea, Form } from './styles';
-
-interface ResponseApi {
-  content: {
-    Valido: boolean;
-    Filial: string;
-    Rotinas: string[];
-  };
-}
-
-const style = { padding: '8px 0' };
-
-const Login: React.FC = () => {
+const Login: FC = () => {
   const navigate = useNavigate();
 
-  const [key, setKey] = useState('');
-
-  const handleSubmit = async (e: React.MouseEvent) => {
+  const handleSubmit = async (e: MouseEvent) => {
     e.preventDefault();
     window.Main.sendMessage('Submitted login');
 
@@ -35,38 +22,27 @@ const Login: React.FC = () => {
   };
 
   return (
-    <Container >
-      <Row style={{  marginBottom: 25}}>
-        <Col span={9} sm={3} offset={8}>
-          <img
-            width={600}
-            height={'auto'}
-            src={Matrix}
-          />
-        </Col>
-      </Row>
-      <Row style={{ marginBottom: 25}}>
-        <Col span={9} offset={8}>
-          <Input size="large" placeholder="Usuario" prefix={<UserOutlined />} />
-        </Col>
-      </Row>
-      <Row style={{ marginBottom: 25}}>
-        <Col span={9} offset={8} >
-          <Input.Password
-            size="large"
-            placeholder="Senha"
-            iconRender={visible => (visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />)}
-          />
-        </Col>
-      </Row>
-      <Row >
-        <Col span={9} offset={8}>
-          <Button type="primary" onClick={handleSubmit} block>
-            Entrar
-          </Button>
-        </Col>
-      </Row>
-
+    <Container>
+      <img
+        width={600}
+        height={'auto'}
+        src={Matrix}
+      />
+      <InputsArea>
+        <h1>Log in</h1>
+        <Input size="large" placeholder="Usuario" prefix={<UserOutlined />} />
+        <Input.Password
+          size="large"
+          placeholder="Senha"
+          iconRender={visible => (visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />)}
+        />
+        <Button
+          size="large"
+          onClick={handleSubmit} 
+        >
+          Entrar
+        </Button>
+      </InputsArea>
     </Container>
   );
 };
