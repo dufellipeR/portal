@@ -10,7 +10,7 @@ import Matrix from '../../../assets/logo-matrix.png'
 
 import { Container, InputsArea } from './styles';
 
-const Login: FC = () => {
+export const Login: FC = () => {
   const navigate = useNavigate();
 
   const handleSubmit = async (e: MouseEvent) => {
@@ -38,7 +38,7 @@ const Login: FC = () => {
         />
         <Button
           size="large"
-          onClick={handleSubmit} 
+          onClick={handleSubmit}
         >
           Entrar
         </Button>
@@ -46,5 +46,3 @@ const Login: FC = () => {
     </Container>
   );
 };
-
-export default Login;

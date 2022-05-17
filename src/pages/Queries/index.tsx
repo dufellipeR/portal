@@ -1,30 +1,14 @@
-import { Button } from 'antd'
-import React from 'react'
-import { useNavigate } from 'react-router-dom'
-import { BackButton } from '../../components/BackButton'
-import { motion } from 'framer-motion';
+import { ContainerAnimated } from '../../components/ContainerAnimated'
+import { Header } from '../../components/Header'
 
-export const Queries: React.FC<any> = () => {
+import { Container } from './styles'
 
-    return (
-        <>
-            <motion.div
-                initial="initial"
-                animate="animate"
-                transition={{ duration: 1 }}
-                variants={{
-                    initial: {
-                        opacity: 0,
-                    },
-                    animate: {
-                        opacity: 1,
-                    },
-                }}
-            >
-                <BackButton />
-                <h1>Consultas</h1>
-            </motion.div>
-        </>
-
-    )
+export const Queries: React.FC = () => {
+  return (
+    <ContainerAnimated>
+      <Container>
+        <Header title='Consultas' />
+      </Container>
+    </ContainerAnimated>
+  )
 }

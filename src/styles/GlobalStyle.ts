@@ -33,4 +33,8 @@ export const GlobalStyle = createGlobalStyle`
     background-color: #F1F1F1;
     max-height: 100%;
   }
+
+  h1, h2, h3, h4, h5, h6 {
+    margin: 0;
+  }
 `

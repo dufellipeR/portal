@@ -1,26 +1,14 @@
-import { BackButton } from '../../components/BackButton'
-import { motion } from 'framer-motion';
+import { ContainerAnimated } from '../../components/ContainerAnimated'
+import { Header } from '../../components/Header'
 
-export const SellOrders: React.FC<any> = () => {
+import { Container } from './styles'
 
-    return (
-        <>
-            <motion.div
-                initial="initial"
-                animate="animate"
-                transition={{ duration: 1 }}
-                variants={{
-                    initial: {
-                        opacity: 0,
-                    },
-                    animate: {
-                        opacity: 1,
-                    },
-                }}
-            >
-                <BackButton />
-                <h1>Pedidos de Venda</h1>
-            </motion.div>
-        </>
-    )
+export const SellOrders: React.FC = () => {
+  return (
+    <ContainerAnimated>
+      <Container>
+        <Header title='Pedidos de Venda' />
+      </Container>
+    </ContainerAnimated>
+  )
 }
