@@ -31,7 +31,7 @@ export const Dashboard: React.FC<any> = () => {
 
     return (
       <ContainerAnimated>
-        {isOnline && (
+        {!isOnline && (
           <Alert
             banner
             message={
@@ -44,11 +44,11 @@ export const Dashboard: React.FC<any> = () => {
 
         <BackButton to='/' isLogout />
 
-        <Badge dot={true}>
+        {/* <Badge dot={true}>
           <button type='button'>
             <SyncOutlined style={{ fontSize: '32px', color: 'orange' }} spin />
           </button>
-        </Badge>
+        </Badge> */}
 
         <Container>
           <h1 style={{ color: '#126877', fontWeight: 'bold' }}>Escolher Rotina</h1>
