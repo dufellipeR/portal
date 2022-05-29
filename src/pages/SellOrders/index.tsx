@@ -1,6 +1,12 @@
 import { useState } from 'react';
 import { Steps } from 'antd';
-import { UserOutlined, SolutionOutlined, LoadingOutlined, SmileOutlined } from '@ant-design/icons';
+import {
+  UserOutlined,
+  SolutionOutlined,
+  LoadingOutlined,
+  CheckOutlined
+} from '@ant-design/icons';
+import { SellOrdersProvider } from './hook/useSellOrders'
 
 import { ContainerAnimated } from '../../components/ContainerAnimated'
 import { Header } from '../../components/Header'
@@ -16,24 +22,42 @@ const { Step } = Steps;
 export const SellOrders: React.FC = () => {
   const [currentStep, setCurrentStep] = useState(1)
 
+  const validateStep = (step: number): 'wait' | 'process' | 'finish' | 'error' => {
+    if (step < currentStep) {
+      return 'finish'
+    }
+
+    if (step === currentStep) {
+      return 'process'
+    }
+
+    if (step > currentStep) {
+      return 'wait'
+    }
+
+    return 'error'
+  }
+
   return (
-    <ContainerAnimated>
-      <Container>
-        <Header title='Pedidos de Venda' />
+    <SellOrdersProvider>
+      <ContainerAnimated>
+        <Container>
+          <Header title='Pedidos de Venda' />
 
-        <Content>
-          <Steps>
-            <Step status="finish" title="Informação Cliente" icon={<UserOutlined />} />
-            <Step status="finish" title="Informação Produtos" icon={<SolutionOutlined />} />
-            <Step status="process" title="Checkout" icon={<LoadingOutlined />} />
-          </Steps>
+          <Content>
+            <Steps>
+              <Step status={validateStep(1)} title="Informação Cliente" icon={currentStep === 1 ? <LoadingOutlined /> : <UserOutlined />} />
+              <Step status={validateStep(2)} title="Informação Produtos" icon={currentStep === 2 ? <LoadingOutlined /> : <SolutionOutlined />} />
+              <Step status={validateStep(3)} title="Checkout" icon={currentStep === 3 ? <LoadingOutlined /> : <CheckOutlined />} />
+            </Steps>
 
-          {currentStep === 1 && <Step1 />}
-          {currentStep === 2 && <Step2 />}
-          {currentStep === 3 && <Step3 />}
-        </Content>
+            {currentStep === 1 && <Step1 onChangeStep={setCurrentStep} />}
+            {currentStep === 2 && <Step2 onChangeStep={setCurrentStep} />}
+            {currentStep === 3 && <Step3 onChangeStep={setCurrentStep} />}
+          </Content>
 
-      </Container>
-    </ContainerAnimated>
+        </Container>
+      </ContainerAnimated>
+    </SellOrdersProvider>
   )
 }
