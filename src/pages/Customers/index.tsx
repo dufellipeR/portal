@@ -27,7 +27,6 @@ export const Customers: React.FC = () => {
           onFinish={onFinish}
           onFinishFailed={onFinishFailed}
           autoComplete="off"
-
         >
           <Form.Item
             label="Tipo"
