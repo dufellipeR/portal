@@ -1,10 +1,19 @@
 import { Button, Form, Input, Radio, Select, Row, Col } from 'antd'
+import { useEffect } from 'react'
 import { ContainerAnimated } from '../../components/ContainerAnimated'
 import { Header } from '../../components/Header'
+import { loadForm } from '../../services/customer-register.service'
 
 import { Container } from './styles'
 
 export const Customers: React.FC = () => {
+
+  useEffect(() => {
+    loadForm().then((res) => {
+      console.log(res);
+    })
+  }, [])
+
   const onFinish = (values: any) => {
     console.log('Success:', values);
   };
