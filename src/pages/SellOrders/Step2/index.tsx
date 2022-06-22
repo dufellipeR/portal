@@ -1,28 +1,44 @@
 import { useState } from "react";
-import { Button, Form, Input, DatePicker } from "antd";
+import {
+  Button,
+  Form,
+  Input,
+  DatePicker,
+} from "antd";
 
-import { Input as InputDefault } from "../../../components/Input";
+import { useSellOrders } from '../../../hooks/useSellOrders'
 
-import { ProductDataProps } from '../types';
+import { ProductDataProps } from "../types";
+import { DrawerCart } from "./DrawerCart";
 
-import { Container } from "../styles";
-import { ContentForm } from "./styles";
+import { Container, ContentForm } from "./styles";
 
 interface Step2Props {
   onChangeStep: React.Dispatch<React.SetStateAction<number>>;
-  onGetProductData: React.Dispatch<React.SetStateAction<ProductDataProps>>;
 }
 
 export const Step2: React.FC<Step2Props> = ({
   onChangeStep,
-  onGetProductData,
 }) => {
+  const [hookForm] = Form.useForm()
+  const { setProductData } = useSellOrders();
+
+  const [item, setItem] = useState('')
+  const [product, setProduct] = useState('')
   const [quantity, setQuantity] = useState(0)
-  const multiplyNumber = 12;
+  const [unityPrice, setUnityPrice] = useState(0)
+  const [totalPrice, setTotalPrice] = useState(0)
+  const [deliveryPreview, setDeliveryPreview] = useState('')
+  const [deliveryReal, setDeliveryReal] = useState('')
+
+  const [showDrawer, setShowDrawer] = useState(false)
 
   const getNextMultiplyNumber = (value: number, multiply: number) => {
     const nextMultiple = Math.ceil(value / multiply) * multiply
     setQuantity(nextMultiple);
+    hookForm.setFields([
+      { name: 'quantity', value: nextMultiple },
+    ])
   }
 
   const onPreviousStep = () => {
@@ -30,17 +46,21 @@ export const Step2: React.FC<Step2Props> = ({
   }
 
   const onNextStep = () => {
-    onGetProductData({
-      name: 'Asd',
-    })
     onChangeStep(3)
   }
 
-  const onFinishFailed = (errorInfo: any) => {
-    console.log('Failed:', errorInfo);
-  };
-
-  console.log(quantity)
+  const handleAddItem = (values: ProductDataProps) => {
+    setProductData({
+      item: values.item,
+      product: values.product,
+      quantity: values.quantity,
+      unityPrice: values.unityPrice,
+      totalPrice: values.totalPrice,
+      deliveryPreview: values.deliveryPreview,
+      deliveryReal: values.deliveryReal,
+    })
+    setShowDrawer(true)
+  }
 
   return (
     <Container>
@@ -49,64 +69,83 @@ export const Step2: React.FC<Step2Props> = ({
         wrapperCol={{ span: 14 }}
         layout="horizontal"
         size={'middle'}
-        onFinish={onNextStep}
-        onFinishFailed={onFinishFailed}
-        validateTrigger="onBlur"
+        onFinish={handleAddItem}
+        form={hookForm}
       >
         <ContentForm>
           <div>
             <Form.Item
               label="Item"
-              rules={[{ required: true, message: 'Item obrigatório' }]}
+              // rules={[{ required: true, message: 'Item obrigatório' }]}
               name="item"
             >
-              <Input />
+              <Input
+                value={item}
+                onChange={(e) => setItem(e.target.value)}
+              />
             </Form.Item>
             <Form.Item
               label="Produto"
-              rules={[{ required: true, message: 'Produto obrigatória' }]}
+              // rules={[{ required: true, message: 'Produto obrigatória' }]}
               name="product"
             >
-              <Input />
+              <Input
+                value={product}
+                onChange={(e) => setProduct(e.target.value)}
+              />
             </Form.Item>
             <Form.Item
               label="Quantidade"
-              rules={[{ required: true, message: 'Quantidade obrigatória' }]}
+              // rules={[{ required: true, message: 'Quantidade obrigatória' }]}
               name="quantity"
             >
               <Input
                 value={quantity}
                 onChange={(e) => setQuantity(Number(e.target.value))}
-                onBlur={() => getNextMultiplyNumber(quantity, multiplyNumber)}
+                onBlur={() => getNextMultiplyNumber(quantity, 12)}
               />
             </Form.Item>
             <Form.Item
               label="Preço Unitário"
-              rules={[{ required: true, message: 'Preço Unitário obrigatório' }]}
-              name="unit_price"
+              // rules={[{ required: true, message: 'Preço Unitário obrigatório' }]}
+              name="unityPrice"
             >
-              <Input />
+              <Input
+                value={unityPrice}
+                onChange={(e) => setUnityPrice(Number(e.target.value))}
+              />
             </Form.Item>
             <Form.Item
               label="Valor Total"
-              rules={[{ required: true, message: 'Valor Total obrigatória' }]}
-              name="total_value"
+              // rules={[{ required: true, message: 'Valor Total obrigatória' }]}
+              name="totalPrice"
             >
-              <Input />
+              <Input
+                value={totalPrice}
+                onChange={(e) => setTotalPrice(Number(e.target.value))}
+              />
             </Form.Item>
             <Form.Item
               label="Entrega Prevista"
-              rules={[{ required: true, message: 'Entrega Prevista obrigatório' }]}
-              name="estimated_delivery_time"
+              // rules={[{ required: true, message: 'Entrega Prevista obrigatório' }]}
+              name="deliveryPreview"
             >
-              <DatePicker format={'DD/MM/YYYY'} style={{ width: '100%' }} />
+              <DatePicker
+                format={'DD/MM/YYYY'}
+                onChange={(_, dateString) => setDeliveryPreview(dateString)}
+                style={{ width: '100%' }}
+                />
             </Form.Item>
             <Form.Item
               label="Entrega Real"
-              rules={[{ required: true, message: 'Entrega Real obrigatória' }]}
-              name="real_delivery_time"
-            >
-              <DatePicker format={'DD/MM/YYYY'} style={{ width: '100%' }} />
+              // rules={[{ required: true, message: 'Entrega Real obrigatória' }]}
+              name="deliveryReal"
+              >
+                <DatePicker
+                  format={'DD/MM/YYYY'}
+                  onChange={(_, dateString) => setDeliveryReal(dateString)}
+                  style={{ width: '100%' }}
+                />
             </Form.Item>
           </div>
           <div>
@@ -115,10 +154,11 @@ export const Step2: React.FC<Step2Props> = ({
         </ContentForm>
         <footer>
           <Button onClick={onPreviousStep}>Etapa Anterior</Button>
-          <Button onClick={onPreviousStep}>Adicionar Item</Button>
+          <Button htmlType="submit">Adicionar Item</Button>
           <Button type="primary" onClick={onNextStep}>Próxima Etapa</Button>
         </footer>
       </Form>
+      <DrawerCart showDrawer={showDrawer} onGetDrawer={setShowDrawer} />
     </Container>
   )
 }
