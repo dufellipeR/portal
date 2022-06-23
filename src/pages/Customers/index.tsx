@@ -1,18 +1,45 @@
 import { Button, Form, Input, Radio, Select, Row, Col } from 'antd'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { ContainerAnimated } from '../../components/ContainerAnimated'
 import { Header } from '../../components/Header'
-import { loadForm } from '../../services/customer-register.service'
+import { loadCities, loadForm, loadStates } from '../../services/customer-register.service'
 
 import { Container } from './styles'
 
-export const Customers: React.FC = () => {
+interface IOptionProps {
+  value: string;
+  label: string;
+}
 
+export const Customers: React.FC = () => {
+  const [sState, setSstate] = useState('')
+  const [estados, setEstados] = useState<IOptionProps[]>([{ value: 'E1', label: 'Estado 1'},{ value: 'E2', label: 'Estado 2'},{ value: 'E3', label: 'Estado 3'},])
+  const [cities, setCities] = useState<IOptionProps[]>([{ value: 'E1', label: 'Estado 1'},{ value: 'E2', label: 'Estado 2'},{ value: 'E3', label: 'Estado 3'},])
   useEffect(() => {
-    loadForm().then((res) => {
-      console.log(res);
+    loadStates().then((res) => {
+      setEstados(() => (res.content.Estados.map((i:any) => (
+        {
+          value: i.Codigo,
+          label: i.Descricao
+        }
+      ))))
     })
   }, [])
+
+  useEffect(() => {
+    console.log('chamou');
+
+    loadCities(sState).then((res) => {
+      console.log(res);
+
+      setCities(() => (res.content.Municipios.map((i:any) => (
+        {
+          value: i.Codigo,
+          label: i.Descricao
+        }
+      ))))
+    })
+  }, [sState])
 
   const onFinish = (values: any) => {
     console.log('Success:', values);
@@ -60,9 +87,7 @@ export const Customers: React.FC = () => {
             <Col span={12}>
               <Form.Item label="Tipo de Cliente">
                 <Select>
-                  <Select.Option value="demo1">Tipo 1</Select.Option>
-                  <Select.Option value="demo2">Tipo 2</Select.Option>
-                  <Select.Option value="demo3">Tipo 3</Select.Option>
+                  <Select.Option value="">Selecione o Tipo de Cliente</Select.Option>
                 </Select>
               </Form.Item>
             </Col>
@@ -99,10 +124,7 @@ export const Customers: React.FC = () => {
             </Col>
             <Col span={12}>
               <Form.Item label="Estado">
-                <Select>
-                  <Select.Option value="demo1">Tipo 1</Select.Option>
-                  <Select.Option value="demo2">Tipo 2</Select.Option>
-                  <Select.Option value="demo3">Tipo 3</Select.Option>
+                <Select onChange={(e) => (setSstate(e))} options={estados}>
                 </Select>
               </Form.Item>
             </Col>
@@ -119,10 +141,15 @@ export const Customers: React.FC = () => {
             </Col>
             <Col span={12}>
               <Form.Item label="Municipio">
-                <Select>
-                  <Select.Option value="demo1">Tipo 1</Select.Option>
-                  <Select.Option value="demo2">Tipo 2</Select.Option>
-                  <Select.Option value="demo3">Tipo 3</Select.Option>
+                <Select options={cities}
+                      showSearch={true}
+                      placeholder="Selecione um municipio"
+                      optionFilterProp="label"
+                      filterOption={(input, option) =>
+                        (option!.label as string).toLowerCase().includes(input.toLowerCase())
+                      }
+
+                >
                 </Select>
               </Form.Item>
             </Col>
