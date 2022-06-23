@@ -7,6 +7,8 @@ import {
   CheckOutlined
 } from '@ant-design/icons';
 
+import { useSellOrders } from '../../hooks/useSellOrders'
+
 import { ContainerAnimated } from '../../components/ContainerAnimated'
 import { Header } from '../../components/Header'
 
@@ -22,8 +24,6 @@ const { Step } = Steps;
 
 export const SellOrders: React.FC = () => {
   const [currentStep, setCurrentStep] = useState(2)
-  const [clientData, setClientData] = useState({} as ClientDataProps)
-  const [productData, setProductData] = useState({} as ProductDataProps)
 
   const validateStep = (step: number): 'wait' | 'process' | 'finish' | 'error' => {
     if (step < currentStep) {
@@ -53,8 +53,8 @@ export const SellOrders: React.FC = () => {
             <Step status={validateStep(3)} title="Checkout" icon={currentStep === 3 ? <LoadingOutlined /> : <CheckOutlined />} />
           </Steps>
 
-          {currentStep === 1 && <Step1 onChangeStep={setCurrentStep} onGetClientData={setClientData} />}
-          {currentStep === 2 && <Step2 onChangeStep={setCurrentStep} onGetProductData={setProductData} />}
+          {currentStep === 1 && <Step1 onChangeStep={setCurrentStep} />}
+          {currentStep === 2 && <Step2 onChangeStep={setCurrentStep} />}
           {currentStep === 3 && <Step3 onChangeStep={setCurrentStep} />}
         </Content>
 

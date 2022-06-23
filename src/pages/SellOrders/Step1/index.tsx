@@ -1,23 +1,41 @@
 import { Button, Col, Form, Input, Row } from 'antd'
+import { useState } from 'react';
 
+import { useSellOrders } from '../../../hooks/useSellOrders'
 import { ClientDataProps } from '../types';
 
 import { Container } from './styles'
 
 interface Step1Props {
   onChangeStep: React.Dispatch<React.SetStateAction<number>>;
-  onGetClientData: React.Dispatch<React.SetStateAction<ClientDataProps>>;
 }
 
 export const Step1: React.FC<Step1Props> = ({
   onChangeStep,
-  onGetClientData,
 }) => {
+  const { setClientData } = useSellOrders();
+
+  const [client, setClient] = useState('')
+  const [store, setStore] = useState('')
+  const [tablePrice, setTablePrice] = useState('')
+  const [typeShipping, setTypeShipping] = useState('')
+  const [redispatch, setRedispatch] = useState('')
+  const [typeRedispatch, setTypeRedispatch] = useState('')
+  const [paymentCondition, setPaymentCondition] = useState('')
+  const [deliveryDate, setDeliveryDate] = useState('')
+
   const onFinish = (values: ClientDataProps) => {
-    onGetClientData({
-      name: values.name
+    setClientData({
+      client: values.client,
+      store: values.store,
+      tablePrice: values.tablePrice,
+      typeShipping: values.typeShipping,
+      redispatch: values.redispatch,
+      typeRedispatch: values.typeRedispatch,
+      paymentCondition: values.paymentCondition,
+      deliveryDate: values.deliveryDate,
     })
-    onChangeStep(2)
+    onChangeStep(3)
   };
 
   const onFinishFailed = (errorInfo: any) => {
@@ -40,19 +58,25 @@ export const Step1: React.FC<Step1Props> = ({
           <Col span={12}>
             <Form.Item
               label="Cliente"
-              rules={[{ required: true, message: 'Cliente obrigatório' }]}
+              // rules={[{ required: true, message: 'Cliente obrigatório' }]}
               name="client"
             >
-              <Input />
+              <Input
+                value={client}
+                onChange={(e) => setClient(e.target.value)}
+              />
             </Form.Item>
           </Col>
           <Col span={12}>
             <Form.Item
               label="Loja"
-              rules={[{ required: true, message: 'Loja obrigatória' }]}
+              // rules={[{ required: true, message: 'Loja obrigatória' }]}
               name="store"
             >
-              <Input />
+              <Input
+                value={store}
+                onChange={(e) => setStore(e.target.value)}
+              />
             </Form.Item>
           </Col>
         </Row>
@@ -60,19 +84,25 @@ export const Step1: React.FC<Step1Props> = ({
           <Col span={12}>
             <Form.Item
               label="Tabela de Preço"
-              rules={[{ required: true, message: 'Tabela de Preço obrigatória' }]}
-              name="table_price"
+              // rules={[{ required: true, message: 'Tabela de Preço obrigatória' }]}
+              name="tablePrice"
             >
-              <Input />
+              <Input
+                value={tablePrice}
+                onChange={(e) => setTablePrice(e.target.value)}
+              />
             </Form.Item>
           </Col>
           <Col span={12}>
             <Form.Item
               label="Tipo do Frete"
-              rules={[{ required: true, message: 'Frete obrigatório' }]}
-              name="type_shipping"
+              // rules={[{ required: true, message: 'Frete obrigatório' }]}
+              name="typeShipping"
             >
-              <Input />
+              <Input
+                value={typeShipping}
+                onChange={(e) => setTypeShipping(e.target.value)}
+              />
             </Form.Item>
           </Col>
         </Row>
@@ -80,19 +110,25 @@ export const Step1: React.FC<Step1Props> = ({
           <Col span={12}>
             <Form.Item
               label="Redespacho"
-              rules={[{ required: true, message: 'Redespacho obrigatória' }]}
+              // rules={[{ required: true, message: 'Redespacho obrigatória' }]}
               name="redispatch"
             >
-              <Input />
+              <Input
+                value={redispatch}
+                onChange={(e) => setRedispatch(e.target.value)}
+              />
             </Form.Item>
           </Col>
           <Col span={12}>
             <Form.Item
               label="Tipo do Redespacho"
-              rules={[{ required: true, message: 'Tipo do Redespacho obrigatório' }]}
-              name="type_redispatch"
+              // rules={[{ required: true, message: 'Tipo do Redespacho obrigatório' }]}
+              name="typeRedispatch"
             >
-              <Input />
+              <Input
+                value={typeRedispatch}
+                onChange={(e) => setTypeRedispatch(e.target.value)}
+              />
             </Form.Item>
           </Col>
         </Row>
@@ -100,19 +136,25 @@ export const Step1: React.FC<Step1Props> = ({
           <Col span={12}>
             <Form.Item
               label="Condição Pagamento"
-              rules={[{ required: true, message: 'Condição obrigatória' }]}
-              name="payment_condition"
+              // rules={[{ required: true, message: 'Condição obrigatória' }]}
+              name="paymentCondition"
             >
-              <Input />
+              <Input
+                value={paymentCondition}
+                onChange={(e) => setPaymentCondition(e.target.value)}
+              />
             </Form.Item>
           </Col>
           <Col span={12}>
             <Form.Item
               label="Data de Entrega"
-              rules={[{ required: true, message: 'Data de Entrega obrigatória' }]}
-              name="delivery_date"
+              // rules={[{ required: true, message: 'Data de Entrega obrigatória' }]}
+              name="deliveryDate"
             >
-              <Input />
+              <Input
+                value={deliveryDate}
+                onChange={(e) => setDeliveryDate(e.target.value)}
+              />
             </Form.Item>
           </Col>
         </Row>
