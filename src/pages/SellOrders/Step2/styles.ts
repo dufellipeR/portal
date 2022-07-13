@@ -8,14 +8,12 @@ export const ContentForm = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr;
 
-  /* > div:nth-child(1) {
-    background: green;
-  } */
-
   > div:nth-child(2) {
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
+    gap: 16px;
 
     > img {
       border-radius: 8px;

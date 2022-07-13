@@ -4,8 +4,9 @@ import { ClientDataProps, ProductDataProps} from "../pages/SellOrders/types"
 interface SellOrdersContextData {
   clientData: ClientDataProps
   setClientData: React.Dispatch<React.SetStateAction<ClientDataProps>>
-  productData: ProductDataProps
-  setProductData: React.Dispatch<React.SetStateAction<ProductDataProps>>
+  productData: ProductDataProps[]
+  setProductData: React.Dispatch<React.SetStateAction<ProductDataProps[]>>
+  onFinishOrder: () => void
 }
 
 const SellOrdersContext = createContext<SellOrdersContextData>(
@@ -14,10 +15,13 @@ const SellOrdersContext = createContext<SellOrdersContextData>(
 
 export const SellOrdersProvider: React.FC = ({ children }) => {
   const [clientData, setClientData] = useState({} as ClientDataProps);
-  const [productData, setProductData] = useState({} as ProductDataProps);
+  const [productData, setProductData] = useState<ProductDataProps[]>([]);
 
-  console.log('ClientData: ', clientData);
-  console.log('ProductData: ', productData);
+  const onFinishOrder = () => {
+    console.log('Finalizar Pedido')
+  }
+
+  console.log('clientData: ', clientData);
 
   return (
     <SellOrdersContext.Provider
@@ -26,6 +30,7 @@ export const SellOrdersProvider: React.FC = ({ children }) => {
         setClientData,
         productData,
         setProductData,
+        onFinishOrder,
       }}
     >
       {children}

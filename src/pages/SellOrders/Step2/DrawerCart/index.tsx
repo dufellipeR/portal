@@ -1,6 +1,9 @@
+import { Fragment } from 'react';
 import { Drawer, Divider, Row, Col } from 'antd';
 
 import DescriptionItem from "../../../../components/DescriptionItem"
+
+import { useSellOrders } from '../../../../hooks/useSellOrders'
 
 interface DrawerCartProps {
   showDrawer: boolean
@@ -11,6 +14,8 @@ export const DrawerCart: React.FC<DrawerCartProps> = ({
   showDrawer,
   onGetDrawer
 }) => {
+  const { productData } = useSellOrders();
+
   return (
     <Drawer
       placement='right'
@@ -22,23 +27,19 @@ export const DrawerCart: React.FC<DrawerCartProps> = ({
     >
       <h2>Produtos</h2>
       <Divider />
-      <Row>
-        <Col span={12}>
-          <DescriptionItem title="Produto" content="Carrinho" />
-        </Col>
-        <Col span={12}>
-          <DescriptionItem title="Quantidade" content="2" />
-        </Col>
-      </Row>
-      <Divider />
-      <Row>
-        <Col span={12}>
-          <DescriptionItem title="Produto" content="Carrinho" />
-        </Col>
-        <Col span={12}>
-          <DescriptionItem title="Quantidade" content="2" />
-        </Col>
-      </Row>
+      {productData.map(product => (
+        <Fragment key={product.product}>
+          <Row>
+            <Col span={12}>
+              <DescriptionItem title="Produto" content={product.product} />
+            </Col>
+            <Col span={12}>
+              <DescriptionItem title="Quantidade" content={product.quantity} />
+            </Col>
+          </Row>
+          <Divider />
+        </Fragment>
+      ))}
     </Drawer>
   )
 }
