@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Button,
   Form,
@@ -8,8 +8,11 @@ import {
 } from "antd";
 import { Moment } from "moment";
 
-import { useSellOrders } from '../../../hooks/useSellOrders'
 import { DrawerCart } from "./DrawerCart";
+
+import { useSellOrders } from '../../../hooks/useSellOrders'
+import { useAuth } from "../../../hooks/auth";
+import api from "../../../services/api";
 
 import { Container, ContentForm } from "./styles";
 
@@ -32,6 +35,7 @@ export const Step2: React.FC<Step2Props> = ({
 }) => {
   const [hookForm] = Form.useForm()
   const { clientData, productData, setProductData } = useSellOrders();
+  const { user } = useAuth();
 
   const [item, setItem] = useState(1)
   const [product, setProduct] = useState('')
@@ -42,6 +46,25 @@ export const Step2: React.FC<Step2Props> = ({
   const [deliveryReal, setDeliveryReal] = useState('')
 
   const [showDrawer, setShowDrawer] = useState(false)
+
+  useEffect(() => {
+    const loadProducts = async () => {
+      try {
+        const response = await api.post('OxenConsProdutos/v1', {
+          content: {
+            PORTAL: "MTXVEN",
+            VENDEDOR: user.Nome,
+            TABELA: clientData.tablePrice,
+            PRODUTO: "",
+          },
+        });
+
+        console.log('RESPONSE PRODUTO: ', response)
+      } catch {}
+    }
+
+    loadProducts()
+  }, [])
 
   const onPreviousStep = () => {
     onChangeStep(1)

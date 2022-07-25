@@ -12,6 +12,17 @@ import { useAuth } from '../../hooks/auth';
 
 import { Container, InputsArea } from './styles';
 
+interface ResponseApiLogin {
+  content: {
+    CodUser: string
+    Email: string
+    Login: string
+    Nivel: string
+    Nome: string
+    Valido: boolean
+  }
+}
+
 export const Login: FC = () => {
   const navigate = useNavigate();
   const { updateUser } = useAuth();
@@ -21,31 +32,33 @@ export const Login: FC = () => {
 
   const handleSubmit = async (e: MouseEvent) => {
     e.preventDefault();
-    navigate('dashboard')
-    // const id = toast.loading('Concedendo acesso...');
+    const id = toast.loading('Concedendo acesso...');
 
-    // try {
-    //   const response = await api.post('OxenVtLogin/v1', {
-    //     content: {
-    //       LOGIN: user,
-    //       CONTRASENA: password,
-    //       PORTAL: 'MTXVEN',
-    //     },
-    //   });
+    try {
+      const response = await api.post<ResponseApiLogin>('OxenVtLogin/v1', {
+        content: {
+          LOGIN: user,
+          SENHA: password,
+          PORTAL: 'MTXVEN',
+        },
+      });
 
-    //   console.log('response: ', response)
-    //   updateUser({
-    //     user,
-    //   })
-    //   navigate('dashboard')
-    // } catch {
-    //   toast.update(id, {
-    //     autoClose: 2000,
-    //     render: 'Acesso negado',
-    //     type: 'error',
-    //     isLoading: false,
-    //   });
-    // }
+      updateUser(response.data.content)
+      toast.update(id, {
+        autoClose: 2000,
+        render: 'Login realizado',
+        type: 'success',
+        isLoading: false,
+      });
+      navigate('dashboard')
+    } catch {
+      toast.update(id, {
+        autoClose: 2000,
+        render: 'Acesso negado',
+        type: 'error',
+        isLoading: false,
+      });
+    }
   };
 
   return (

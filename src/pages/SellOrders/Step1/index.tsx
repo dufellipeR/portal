@@ -7,10 +7,12 @@ import {
   DatePicker,
   Select,
 } from 'antd'
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Moment } from "moment";
 
 import { useSellOrders } from '../../../hooks/useSellOrders'
+import { useAuth } from '../../../hooks/auth'
+import api from '../../../services/api';
 
 import { Container } from './styles'
 
@@ -33,15 +35,36 @@ export const Step1: React.FC<Step1Props> = ({
   onChangeStep,
 }) => {
   const { setClientData } = useSellOrders();
+  const { user } = useAuth();
 
   const [client, setClient] = useState([])
   const [store, setStore] = useState([])
   const [tablePrice, setTablePrice] = useState([])
-  const [typeShipping, setTypeShipping] = useState('')
-  const [redispatch, setRedispatch] = useState('')
-  const [typeRedispatch, setTypeRedispatch] = useState('')
-  const [paymentCondition, setPaymentCondition] = useState('')
+  const [typeShipping, setTypeShipping] = useState([])
+  const [redispatch, setRedispatch] = useState([])
+  const [typeRedispatch, setTypeRedispatch] = useState([])
+  const [paymentCondition, setPaymentCondition] = useState([])
   const [deliveryDate, setDeliveryDate] = useState('')
+
+  useEffect(() => {
+    const loadClient = async () => {
+      try {
+        const response = await api.post('OxenConsCliente/v1', {
+          content: {
+            PORTAL: "MTXVEN",
+            VENDEDOR: user.Nome,
+            CLIENTE: "",
+            CNPJ: "",
+            NOME: ""
+          },
+        });
+
+        console.log('RESPONSE CLIENTE: ', response)
+      } catch {}
+    }
+
+    loadClient()
+  }, [])
 
   const onFinish = (values: FormData) => {
     setClientData({
