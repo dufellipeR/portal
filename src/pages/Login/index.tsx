@@ -1,4 +1,5 @@
 import { FC, MouseEvent, useState } from 'react';
+import axios from 'axios';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 import { Input } from 'antd';
@@ -35,11 +36,16 @@ export const Login: FC = () => {
     const id = toast.loading('Concedendo acesso...');
 
     try {
-      const response = await api.post<ResponseApiLogin>('OxenVtLogin/v1', {
+      const response = await axios.post<ResponseApiLogin>('http://192.168.2.2:10000/rest/OXEVT001/OxenVtLogin/v1', {
         content: {
           LOGIN: user,
           SENHA: password,
           PORTAL: 'MTXVEN',
+        },
+      }, {
+        headers: {
+          'Content-Type': 'application/json',
+          'Token': 'zghMwfpkQVcLT%kFfQw&WSBW2%Pph3^o'
         },
       });
 

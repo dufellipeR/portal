@@ -53,7 +53,7 @@ export const Step2: React.FC<Step2Props> = ({
         const response = await api.post('OxenConsProdutos/v1', {
           content: {
             PORTAL: "MTXVEN",
-            VENDEDOR: user.Nome,
+            VENDEDOR: user.Login,
             TABELA: clientData.tablePrice,
             PRODUTO: "",
           },

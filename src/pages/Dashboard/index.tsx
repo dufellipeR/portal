@@ -25,8 +25,6 @@ export const Dashboard: React.FC<any> = () => {
     } else {
       setIsOnline(false)
     }
-
-    console.log(navigator.onLine);
   }
 
     return (

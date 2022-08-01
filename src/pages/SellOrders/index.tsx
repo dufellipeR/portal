@@ -19,7 +19,7 @@ import { Container, Content } from './styles'
 const { Step } = Steps;
 
 export const SellOrders: React.FC = () => {
-  const [currentStep, setCurrentStep] = useState(2)
+  const [currentStep, setCurrentStep] = useState(1)
 
   const validateStep = (step: number): 'wait' | 'process' | 'finish' | 'error' => {
     if (step < currentStep) {

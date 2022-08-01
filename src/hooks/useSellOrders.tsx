@@ -45,7 +45,7 @@ export const SellOrdersProvider: React.FC = ({ children }) => {
       const response = await api.post('OxenPedido/v1', {
         content: {
           PORTAL: "PLXWMS",
-          VENDEDOR: user.Nome,
+          VENDEDOR: user.Login,
           CLIENTE: clientData.client,
           LOJA: clientData.store,
           TABELA: clientData.tablePrice,

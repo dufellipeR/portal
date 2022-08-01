@@ -27,8 +27,6 @@ const AuthProvider: FC = ({ children }) => {
     [setUserState],
   );
 
-  console.log('USER: ', userState)
-
   return (
     <AuthContext.Provider
       // eslint-disable-next-line react/jsx-no-constructed-context-values

@@ -52,7 +52,7 @@ export const Step1: React.FC<Step1Props> = ({
         const response = await api.post('OxenConsCliente/v1', {
           content: {
             PORTAL: "MTXVEN",
-            VENDEDOR: user.Nome,
+            VENDEDOR: "V00006",
             CLIENTE: "",
             CNPJ: "",
             NOME: ""
